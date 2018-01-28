@@ -99,11 +99,12 @@ def find_class_info():
 
     res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
     print res.content
+    print res.json()
     return res.json()
 
 def send_message(recipient_id, message_text):
 
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    #log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
