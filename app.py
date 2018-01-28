@@ -45,8 +45,8 @@ def webhook():
                     try:
                         send_message(sender_id, "hi")
                         send_message(sender_id, find_class_info())
-                    except:
-                        send_message(sender_id, "failed")
+                    except Exception, e:
+                        send_message(sender_id, "failed" + str(e))
                         log("error occurred")
 
                     #course, crn = message_text.split(" ")
