@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 import logging
 import requests
+import json
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -98,8 +99,10 @@ def find_class_info():
     ]
 
     res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
+    print "content: "
     print res.content
-    print res.json()
+    parsed = json.loads(res.content)
+    capacity =
     return res.json()
 
 def send_message(recipient_id, message_text):
