@@ -145,6 +145,8 @@ def send_POST(course, crn):
     ]
 
     res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
+    print "content: "
+    print res.content
     return res
 
 def parse_JSON(res):
@@ -152,8 +154,9 @@ def parse_JSON(res):
     Returns a dict containing JSON information for the class
     """
     parsed = res.json()
+    print "parsed: "
+    print parsed
     return parsed["sections"][0]
-
 
 def send_message(recipient_id, message_text):
 
