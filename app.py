@@ -48,7 +48,7 @@ def webhook():
                         parsed = parse_JSON(data)
                         seats = int(parsed["avail"])
                         send_message(sender_id, "There are {rem} seats left in {d}{cc}".format(rem=seats,d=dept,cc=code))
-                        if seats <= 0;
+                        if seats <= 0:
                             send_message(sender_id, "Should I message you when one opens up? (y/n)")
                     except ValueError, e:
                         logging.exception("error occurred")
