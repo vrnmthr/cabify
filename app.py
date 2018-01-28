@@ -45,7 +45,6 @@ def webhook():
 
                     try:
                         send_message(sender_id, "hi")
-                        send_message(sender_id, find_class_info())
                     except Exception, e:
                         send_message(sender_id, "failed" + str(e))
                         logging.exception("error occurred")
@@ -102,6 +101,7 @@ def find_class_info():
     print "content: "
     print res.content
     parsed = json.loads(res.content)
+    print parsed[sections]
     return res.json()
 
 def send_message(recipient_id, message_text):
