@@ -50,7 +50,7 @@ def webhook():
                         coursesearch = "%20".join([dept, code])
                         send_message(sender_id, coursesearch)
                         send_message(sender_id, crn)
-                        res = send_POST(coursearch, crn)
+                        res = send_POST(coursesearch, crn)
                         parsed = parse_JSON(res)
                         rem = parsed["avail"]
                         formatted = "There are " + str(rem) + " seats available in CSCI 1550"
