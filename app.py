@@ -43,9 +43,9 @@ def webhook():
                     if("can you notify me when a class becomes open" in message_text):
                         send_message(sender_id, "Sure! Which class?")
                     elif("what can you do" in message_text):
-                        send_message("try asking: can you notify me when a class becomes open?")
+                        send_message(sender_id, "try asking: can you notify me when a class becomes open?")
                     else:
-                        send_message("I didn't get that. Trying asking me what I can do.")
+                        send_message(sender_id, "I didn't get that. Trying asking me what I can do.")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
