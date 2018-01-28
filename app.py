@@ -8,7 +8,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 data = {
-    data["routing"]: 0
+    "routing": 0
 }
 
 @app.route('/', methods=['GET'])
