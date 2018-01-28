@@ -43,10 +43,10 @@ def webhook():
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
                     try:
-                        send_message("hi")
+                        send_message(sender_id, "hi")
                     except:
                         log("error occurred.")
-                            
+
                     #course, crn = message_text.split(" ")
                     #send_message(sender_id, "{course} seems to be free right now!".format(course=course))
 
