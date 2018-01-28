@@ -43,34 +43,8 @@ def webhook():
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
 
-                    if message_text == "clear":
-                        send_message(sender_id, "Hi! I'm Cabify. What can I help you with?")
-                        data["routing"] = 0
-                    elif data["routing"] < 2:
-                        # has asked about notification for a class
-                        if data["routing"] <= 1.1:
-                            # needs to say exact name
-                            send_message(sender_id, "I need the CRN too")
-                            data["routing"] = 1.2
-                        elif data["routing"] <= 1.2:
-                            # has just submitted CRN
-                            send_message(sender_id, "Thanks - lemme check on that for you.")
-                            send_message(sender_id, "I've processed your request. You'll be hearing from me soon :)")
-                            data["routing"] = 1.3
-                        else:
-                            #default
-                            send_message(sender_id, "I didn't get that.")
-                            data["routing"] = 0
-                    else:
-                        if("can you notify me when a class becomes open" in message_text):
-                            send_message(sender_id, "Sure! Tell me the exact name of the class.")
-                            data["routing"] = 1
-                        elif("what can you do" in message_text):
-                            send_message(sender_id, "try asking: can you notify me when a class becomes open?")
-                            data["routing"] = 0
-                        else:
-                            send_message(sender_id, "I didn't get that. Trying asking me what I can do.")
-                            data["routing"] = 0
+                    course, crn = message_text.split(" ")
+                    send_message(sender_id, "{course} seems to be free right now!".format(course=course))
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
