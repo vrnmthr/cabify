@@ -103,7 +103,7 @@ def find_class_info():
     print res.content
     parsed = json.loads(res.content)
     print "hahahah"
-    print parsed[sections]
+    print parsed["sections"]
     return res.json()
 
 def send_message(recipient_id, message_text):
