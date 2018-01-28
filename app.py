@@ -46,10 +46,15 @@ def webhook():
                             # needs to say exact name
                             send_message(sender_id, "I need the CRN too")
                             routing = 1.2
-                        if routing <= 1.2:
+                        elif routing <= 1.2:
                             # has just submitted CRN
                             send_message(sender_id, "Thanks - lemme check on that for you.")
                             send_message(sender_id, "I've processed your request. You'll be hearing from me soon :)")
+                            routing = 1.3
+                        else:
+                            #default
+                            send_message(sender_id, "I didn't get that.")
+                            routing = 0
                     else:
                         if("can you notify me when a class becomes open" in message_text):
                             send_message(sender_id, "Sure! Tell me the exact name of the class.")
