@@ -105,7 +105,7 @@ def find_class_info():
     parsed = res.json()
     print "attempting to interpret parsing: "
     #print typeof(parsed)
-    print parsed["sections"]
+    print parsed["sections"]["avail"]
     return res.json()
 
 def send_message(recipient_id, message_text):
