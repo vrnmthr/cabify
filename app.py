@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 from datetime import datetime
 import logging
 import requests
@@ -44,13 +43,35 @@ def webhook():
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
                     try:
+                        dept, code, crn = message_text.split(" ")
+                        data = post_course(dept, code, crn)
+                        parsed = parse_JSON(data)
+                        seats = int(parsed["avail"])
+                        send_message(sender_id, "There are {rem} seats left in {d}{cc}".format(rem=seats,d=dept,cc=code))
+                        if seats <= 0;
+                            send_message(sender_id, "Should I message you when one opens up? (y/n)")
+                    except ValueError, e:
+                        logging.exception("error occurred")
+                        send_message(sender_id, "I didn't get that. Try typing [course] [code] [CRN]")
+                        send_message(sender_id, "CSCI 0180 25748 should work")
+
+
+                    """
+                    split = message_text.split(" ")
+                    if len(split) < 3:
+                        send_message(sender_id, "I didn't get that. Try typing [course] [code] [CRN]")
+                        send_message(sender_id, "CSCI 0180 25748 should work")
+                    else:
+
+
+                    try:
                         send_message(sender_id, "hi")
                         dept, code, crn = message_text.split(" ")
                         dept = dept.upper()
                         coursesearch = "%20".join([dept, code])
                         send_message(sender_id, coursesearch)
                         send_message(sender_id, crn)
-                        res = send_POST(coursesearch, crn)
+                        res = post_course(coursesearch, crn)
                         parsed = parse_JSON(res)
                         rem = parsed["avail"]
                         formatted = "There are " + str(rem) + " seats available in CSCI 1550"
@@ -63,6 +84,7 @@ def webhook():
 
                     #course, crn = message_text.split(" ")
                     #send_message(sender_id, "{course} seems to be free right now!".format(course=course))
+                    """
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -74,6 +96,19 @@ def webhook():
                     pass
 
     return "ok", 200
+
+def encode_course_data(dept, course, crn):
+    """
+    Returns a dictionary containing
+    "course": search string for course
+    "crn": crn for course
+    """
+    dept = dept.upper()
+    encoded = "%20".join([dept, code])
+    return {
+        "course": encoded
+        "crn": crn
+    }
 
 def find_class_info():
 
@@ -118,9 +153,10 @@ def find_class_info():
     print parsed["sections"][0]["avail"]
     return res.json()
 
-def send_POST(course, crn):
+def post_course(dept, code, crn):
 
-    #encoded_course = course.upper().replace(" ", "%20")
+    dept = dept.upper()
+    encoded = "%20".join([dept, code])
 
     cookies = {
         '_ga': 'GA1.2.1179830460.1510250977',
@@ -150,7 +186,7 @@ def send_POST(course, crn):
       ('term', '201720'),
       # needs to parse spaces to remove %20
       #('course', 'CSCI%201550'),
-      ('course', course),
+      ('course', encoded),
       #('id', '25756'),
       ('id', crn),
       ('instId', ''),
@@ -194,7 +230,6 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     try:
         if type(msg) is dict:
@@ -205,7 +240,6 @@ def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     except UnicodeEncodeError:
         pass  # squash logging errors in case of non-ascii text
     sys.stdout.flush()
-
 
 if __name__ == '__main__':
     app.run(debug=True)
