@@ -98,8 +98,7 @@ def find_class_info():
     ]
 
     res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
-    log(res)
-    log(res.content)
+    print res.content
     return res.json()
 
 def send_message(recipient_id, message_text):
