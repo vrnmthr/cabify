@@ -46,9 +46,12 @@ def webhook():
                     try:
                         send_message(sender_id, "hi")
                         split = message_text.split(" ")
-                        send_message(sender_id, split[0])
-                        send_message(sender_id, split[1])
-                        res = send_POST(split[0], split[1])
+                        course = split[0]
+                        crn = split[1]
+                        course = course.upper().replace(" ", "%20")
+                        send_message(sender_id, course)
+                        send_message(sender_id, crn)
+                        res = send_POST(course, crn)
                         parsed = parse_JSON(res)
                         rem = parsed["avail"]
                         formatted = "There are " + str(rem) + " seats available in CSCI 1550"
@@ -118,7 +121,7 @@ def find_class_info():
 
 def send_POST(course, crn):
 
-    encoded_course = course.replace(" ", "%20")
+    #encoded_course = course.upper().replace(" ", "%20")
 
     cookies = {
         '_ga': 'GA1.2.1179830460.1510250977',
@@ -148,7 +151,7 @@ def send_POST(course, crn):
       ('term', '201720'),
       # needs to parse spaces to remove %20
       #('course', 'CSCI%201550'),
-      ('course', encoded_course),
+      ('course', course),
       #('id', '25756'),
       ('id', crn),
       ('instId', ''),
