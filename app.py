@@ -56,8 +56,11 @@ def webhook():
                             routing = 1
                         elif("what can you do" in message_text):
                             send_message(sender_id, "try asking: can you notify me when a class becomes open?")
+                            routing = 0
                         else:
                             send_message(sender_id, "I didn't get that. Trying asking me what I can do.")
+                            routing = 0
+
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
