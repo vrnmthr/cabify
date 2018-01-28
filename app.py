@@ -7,7 +7,9 @@ import requests
 from flask import Flask, request
 
 app = Flask(__name__)
-routing = 2000000
+data = {
+    "data["routing"]": 0
+}
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -40,31 +42,31 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    if routing < 2:
+                    if data["routing"] < 2:
                         # has asked about notification for a class
-                        if routing <= 1.1:
+                        if data["routing"] <= 1.1:
                             # needs to say exact name
                             send_message(sender_id, "I need the CRN too")
-                            routing = 1.2
-                        elif routing <= 1.2:
+                            data["routing"] = 1.2
+                        elif data["routing"] <= 1.2:
                             # has just submitted CRN
                             send_message(sender_id, "Thanks - lemme check on that for you.")
                             send_message(sender_id, "I've processed your request. You'll be hearing from me soon :)")
-                            routing = 1.3
+                            data["routing"] = 1.3
                         else:
                             #default
                             send_message(sender_id, "I didn't get that.")
-                            routing = 0
+                            data["routing"] = 0
                     else:
                         if("can you notify me when a class becomes open" in message_text):
                             send_message(sender_id, "Sure! Tell me the exact name of the class.")
-                            routing = 1
+                            data["routing"] = 1
                         elif("what can you do" in message_text):
                             send_message(sender_id, "try asking: can you notify me when a class becomes open?")
-                            routing = 0
+                            data["routing"] = 0
                         else:
                             send_message(sender_id, "I didn't get that. Trying asking me what I can do.")
-                            routing = 0
+                            data["routing"] = 0
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
