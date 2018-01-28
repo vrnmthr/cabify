@@ -44,8 +44,9 @@ def webhook():
 
                     try:
                         send_message(sender_id, "hi")
+                        send_message(find_class_info())
                     except:
-                        log("error occurred.")
+                        log("error occurred")
 
                     #course, crn = message_text.split(" ")
                     #send_message(sender_id, "{course} seems to be free right now!".format(course=course))
@@ -61,6 +62,43 @@ def webhook():
 
     return "ok", 200
 
+def find_class_info():
+
+    cookies = {
+        '_ga': 'GA1.2.1179830460.1510250977',
+        '__utma': '117564634.1179830460.1510250977.1511049538.1512078967.2',
+        '__utmz': '117564634.1512078967.2.2.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided)',
+    }
+
+    headers = {
+        'Origin': 'https://cab.brown.edu',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Referer': 'https://cab.brown.edu/',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Connection': 'keep-alive',
+    }
+
+    params = (
+        ('output', 'json'),
+        ('page', 'asoc.rjs'),
+        ('route', 'course'),
+    )
+
+    data = [
+      ('term', '201720'),
+      ('course', 'CSCI%201550'),
+      ('id', '25756'),
+      ('instId', ''),
+    ]
+
+    res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
+
+    return res.json()
+}
 
 def send_message(recipient_id, message_text):
 
