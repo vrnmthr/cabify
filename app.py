@@ -8,7 +8,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 data = {
-    "data["routing"]": 0
+    data["routing"]: 0
 }
 
 @app.route('/', methods=['GET'])
@@ -42,7 +42,11 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    if data["routing"] < 2:
+
+                    if message_text == "clear":
+                        send_message(sender_id, "Hi! I'm Cabify. What can I help you with?")
+                        data["routing"] = 0
+                    elif data["routing"] < 2:
                         # has asked about notification for a class
                         if data["routing"] <= 1.1:
                             # needs to say exact name
