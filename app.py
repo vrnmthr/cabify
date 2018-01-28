@@ -48,7 +48,7 @@ def webhook():
                         split = message_text.split(" ")
                         send_message(sender_id, split[0])
                         send_message(sender_id, split[1])
-                        res = send_POST(split[0], [1])
+                        res = send_POST(split[0], split[1])
                         parsed = parse_JSON(res)
                         rem = parsed["avail"]
                         formatted = "There are " + str(rem) _+ " seats available in CSCI 1550"
