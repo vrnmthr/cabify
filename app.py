@@ -47,7 +47,7 @@ def webhook():
                         send_message(sender_id, "hi")
                         res = send_POST("hi","")
                         parsed = parse_JSON(res)
-                        
+
                     except Exception, e:
                         send_message(sender_id, "failed" + str(e))
                         logging.exception("error occurred")
@@ -147,7 +147,7 @@ def send_POST(course, crn):
     res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
     return res
 
-def parse_JSON():
+def parse_JSON(res):
     """
     Returns a dict containing JSON information for the class
     """
