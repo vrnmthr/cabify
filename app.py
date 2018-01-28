@@ -101,8 +101,10 @@ def find_class_info():
     res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
     print "content: "
     print res.content
-    parsed = json.loads(res.content)
-    print "hahahah"
+    print res.status_code
+    parsed = res.json()
+    print "attempting to interpret parsing: "
+    print typeof(parsed)
     print parsed["sections"]
     return res.json()
 
