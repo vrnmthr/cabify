@@ -2,7 +2,7 @@ import os
 import sys
 import json
 from datetime import datetime
-
+import logging
 import requests
 from flask import Flask, request
 
@@ -47,6 +47,7 @@ def webhook():
                         send_message(sender_id, find_class_info())
                     except Exception, e:
                         send_message(sender_id, "failed" + str(e))
+                        logging.exception("error occurred")
                         log("error occurred")
 
                     #course, crn = message_text.split(" ")
