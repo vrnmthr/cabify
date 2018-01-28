@@ -102,7 +102,6 @@ def find_class_info():
     print "content: "
     print res.content
     parsed = json.loads(res.content)
-    capacity =
     return res.json()
 
 def send_message(recipient_id, message_text):
