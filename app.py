@@ -97,19 +97,6 @@ def webhook():
 
     return "ok", 200
 
-def encode_course_data(dept, course, crn):
-    """
-    Returns a dictionary containing
-    "course": search string for course
-    "crn": crn for course
-    """
-    dept = dept.upper()
-    encoded = "%20".join([dept, code])
-    return {
-        "course": encoded
-        "crn": crn
-    }
-
 def find_class_info():
 
     cookies = {
