@@ -51,7 +51,7 @@ def webhook():
                         res = send_POST(split[0], split[1])
                         parsed = parse_JSON(res)
                         rem = parsed["avail"]
-                        formatted = "There are " + str(rem) _+ " seats available in CSCI 1550"
+                        formatted = "There are " + str(rem) + " seats available in CSCI 1550"
                         send_message(sender_id, formatted)
 
                     except Exception, e:
