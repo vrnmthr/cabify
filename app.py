@@ -101,6 +101,7 @@ def find_class_info():
     print "content: "
     print res.content
     parsed = json.loads(res.content)
+    print "hahahah"
     print parsed[sections]
     return res.json()
 
