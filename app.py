@@ -137,7 +137,8 @@ def send_POST(course, crn):
 
     data = [
       ('term', '201720'),
-      ('course', 'CSCI 1550'),
+      # needs to parse spaces to remove %20
+      ('course', 'CSCI%201550'),
       #('course', 'course'),
       ('id', '25756'),
       #('id', 'crn'),
@@ -147,6 +148,7 @@ def send_POST(course, crn):
     res = requests.post('https://cab.brown.edu/asoc-api/', headers=headers, params=params, cookies=cookies, data=data)
     print "content: "
     print res.content
+    print "status code: " + res.status_code
     return res
 
 def parse_JSON(res):
