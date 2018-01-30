@@ -26,8 +26,8 @@ def verify():
 
 def run_loop():
     while True:
-        print "I ran"
-        time.sleep(5)
+    print "I ran"
+    time.sleep(5)
 
 @app.route('/', methods=['POST'])
 def webhook():
