@@ -5,6 +5,8 @@ import logging
 import requests
 import json
 from flask import Flask, request
+from multiprocessing import Process
+import time
 
 app = Flask(__name__)
 data = {
@@ -22,6 +24,9 @@ def verify():
 
     return "Hello world", 200
 
+def run_loop():
+    print "I ran"
+    time.sleep(5)
 
 @app.route('/', methods=['POST'])
 def webhook():
@@ -42,18 +47,22 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    try:
-                        dept, code, crn = message_text.split(" ")
-                        data = post_course(dept, code, crn)
-                        parsed = parse_JSON(data)
-                        seats = int(parsed["avail"])
-                        send_message(sender_id, "There are {rem} seats left in {d}{cc}".format(rem=seats,d=dept,cc=code))
-                        if seats <= 0:
-                            send_message(sender_id, "Should I message you when one opens up? (y/n)")
-                    except ValueError, e:
-                        logging.exception("error occurred")
-                        send_message(sender_id, "I didn't get that. Try typing [course] [code] [CRN]")
-                        send_message(sender_id, "CSCI 0180 25748 should work")
+                    if message_text == "loop":
+                        p = Process(target=run_loop)
+                        p.start()
+                    else:
+                        try:
+                            dept, code, crn = message_text.split(" ")
+                            data = post_course(dept, code, crn)
+                            parsed = parse_JSON(data)
+                            seats = int(parsed["avail"])
+                            send_message(sender_id, "There are {rem} seats left in {d}{cc}".format(rem=seats,d=dept,cc=code))
+                            if seats <= 0:
+                                send_message(sender_id, "Should I message you when one opens up? (y/n)")
+                        except ValueError, e:
+                            logging.exception("error occurred")
+                            send_message(sender_id, "I didn't get that. Try typing [course] [code] [CRN]")
+                            send_message(sender_id, "CSCI 0180 25748 should work")
 
 
                     """
